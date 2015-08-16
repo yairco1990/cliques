@@ -203,6 +203,7 @@ import java.util.Vector;
 		Vector<VertexSet> ans = new Vector<VertexSet>();
 		for(int i=0;i<_V.size();i++) {
 			VertexSet curr = _V.elementAt(i);
+			
 			for(int a=0;a<curr.size();a++) {
 				if(i<curr.at(a)) {
 					VertexSet tmp = new VertexSet();
@@ -316,14 +317,18 @@ import java.util.Vector;
 	//	int size = 2;
 		while (ans.size()>i) {
 			Clique curr = ans.elementAt(i);
-			if(curr.size()<max_size) {
+			VertexSet vvv = edge.clique(); // -oritabib
+			VertexSet vvv2 = edge.commonNi(); // -oritabib
+			if(vvv.size()+vvv2.size()>=min_size){ // -oritabib
+			if(curr.size()<max_size) {	
 				VertexSet Ni = curr.commonNi();
 				for(int a=0;a<Ni.size();a++) {
 					Clique c = new Clique(curr,Ni.at(a));
 					ans.add(c);
 				}
 			}
-			else {i=ans.size();} // speedup trick 
+			else {i=ans.size();} // speedup trick
+			}
 			i++;
 		}
 		
