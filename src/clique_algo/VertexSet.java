@@ -26,7 +26,9 @@ public class VertexSet {
 		_set[_sp] = a;
 		_sp++;
 	}
-	public int size() {return _sp;}
+	public int size() {
+		return _sp;
+		}
 	public int at(int i) {return _set[i];}
 	
 	public String toString() {

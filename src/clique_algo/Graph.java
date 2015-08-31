@@ -22,6 +22,7 @@ import java.util.Vector;
 	 private double _TH; // the threshold value
 	 private int _E_size = 0;
 	 private boolean _mat_flag=true;
+	 private int Max_Cliques_Size = -1;
 	 Graph(String file, double th) {
 		this._file_name = file;
 		_TH = th;
@@ -259,6 +260,9 @@ import java.util.Vector;
 			//os.println("A");
 			
 			String ll = "0%   20%   40%   60%   80%   100%";
+			int maxCliqueSize = 0;
+			 Vector<Clique> MaxCliques = new Vector<Clique>();
+			
 			int t = Math.max(1,len/ll.length());
 			if(Clique_Tester.Debug){
 				System.out.println("Computing all cliques of size["+min_size+","+max_size+"] based on "+len+" edges graph, this may take a while");
@@ -275,6 +279,8 @@ import java.util.Vector;
 				
 				for(int b=0;b<C1.size();b++) {
 					Clique c = C1.elementAt(b);
+					  if (maxCliqueSize <= c.size()) maxCliqueSize = c.size();
+					  
 					if (c.size()>=min_size) {
 						os.println(count+", "+i+","+c.size()+", "+c.toFile());
 						count++;
@@ -290,6 +296,9 @@ import java.util.Vector;
 			} // for
 			System.out.println();
 			
+			System.out.println("Max Clique size = "+maxCliqueSize);
+	        this.Max_Cliques_Size = maxCliqueSize;
+	        
 			os.close();
 			try {
 				fw.close();
@@ -314,22 +323,22 @@ import java.util.Vector;
 		Vector<Clique> ans = new Vector<Clique>();
 		ans.add(edge);
 		int i=0;
-	//	int size = 2;
-		while (ans.size()>i) {
+			//	int size = 2;
+				while (ans.size()>i) {
 			Clique curr = ans.elementAt(i);
-			VertexSet vvv = edge.clique(); // -oritabib
-			VertexSet vvv2 = edge.commonNi(); // -oritabib
-			if(vvv.size()+vvv2.size()>=min_size){ // -oritabib
 			if(curr.size()<max_size) {	
 				VertexSet Ni = curr.commonNi();
+				if(curr.size()+Ni.size()>=min_size){ // new line
 				for(int a=0;a<Ni.size();a++) {
 					Clique c = new Clique(curr,Ni.at(a));
 					ans.add(c);
 				}
 			}
+			} 
 			else {i=ans.size();} // speedup trick
-			}
 			i++;
+		
+		
 		}
 		
 		return ans;

@@ -36,7 +36,9 @@ public class Clique {
 		for(int i=0;i<this._clique.size();i++) {ans+=this._clique.at(i)+",";}
 		return ans;
 	}
-	public int size() {return this._clique.size();}
+	public int size() {
+		return this._clique.size();
+		}
 	public VertexSet clique() {return this._clique;}
 	public void addVertex(int vertex){
 		_clique.add(vertex);
