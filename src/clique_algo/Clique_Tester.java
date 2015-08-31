@@ -1,16 +1,12 @@
 package clique_algo;
 
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
-import java.util.Vector;
 
 public class Clique_Tester {
 	public static int minQ = 6, maxQ=10;
 	public static double TH = 0.75;
-	public static String in_file = "test1.csv";
+	public static String in_file = "test3.csv";
 	public static String out_file = null;
 	public static boolean Debug = true;
 	public static int MAX_CLIQUE = 100000;

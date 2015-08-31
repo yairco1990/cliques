@@ -1,0 +1,5 @@
+ALL_Cliques: of file: test3.csv,  TH:0.75
+
+0,  1, 2, 
+1,  2, 
+2,  
