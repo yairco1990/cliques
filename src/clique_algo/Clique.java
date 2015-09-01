@@ -45,4 +45,8 @@ public class Clique {
 	public VertexSet commonNi() {
 		return _Ni;
 	}
+	@Override
+	public String toString() {
+		return _clique.toString();
+	}
 }

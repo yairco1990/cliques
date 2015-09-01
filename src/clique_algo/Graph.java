@@ -17,19 +17,19 @@ import java.util.Vector;
  */
 //
 class Graph {
-	private String name;
-	private int row;
-	private int column;
-	private int[][] mat;
-
 	private String _file_name;
 	private Vector<VertexSet> _V;
 	private double _TH; // the threshold value
 	private int _E_size = 0;
 	private boolean _mat_flag = true;
 	private int Max_Cliques_Size = -1;
+	private Vector<Clique>[] cliquesVector;
 
 	public Graph(String file) {
+		cliquesVector = new Vector[Clique_Tester.MAX_CLIQUE];
+		for (int i = 0; i < cliquesVector.length; i++) {
+			cliquesVector[i] = new Vector<Clique>();
+		}
 		this._file_name = file;
 		_V = new Vector<VertexSet>();
 		init2();
@@ -244,32 +244,6 @@ class Graph {
 	 * mind - as a based code for a possibly implementation of parallel cernal.
 	 * 
 	 */
-	Vector<VertexSet> All_Cliques_DFS(int min_size, int max_size) {
-		Clique.init(this);
-		Vector<VertexSet> ans = new Vector<VertexSet>();
-		Vector<VertexSet> C0 = allEdges(); // all edges – all cliques of size 2/
-		// ans.addAll(C0);
-		int len = C0.size();
-		// System.out.println("|E|= "+len);
-		int count = 0;
-		for (int i = 0; i < len; i++) {
-
-			VertexSet curr_edge = C0.elementAt(i);
-			Clique edge = new Clique(curr_edge.at(0), curr_edge.at(1));
-			Vector<Clique> C1 = allC_seed(edge, min_size, max_size);
-			count += C1.size();
-			// System.out.println("alg2 "+i+") edge:["+curr_edge.at(0)+","+curr_edge.at(1)+"]"+C1.size()
-			// +"  total: "+count);
-			addToSet(ans, C1);
-		} // for
-		return ans;
-	}
-
-	/**
-	 * 
-	 * @param min_size
-	 * @param max_size
-	 */
 	public void All_Cliques_DFS(String out_file, int min_size, int max_size) {
 		Clique.init(this);
 		Vector<VertexSet> C0 = allEdges(); // all edges – all cliques of size 2/
@@ -287,7 +261,6 @@ class Graph {
 		// os.println("A");
 
 		String ll = "0%   20%   40%   60%   80%   100%";
-		int maxCliqueSize = 0;
 		Vector<Clique> MaxCliques = new Vector<Clique>();
 
 		int t = Math.max(1, len / ll.length());
@@ -308,8 +281,9 @@ class Graph {
 
 			for (int b = 0; b < C1.size(); b++) {
 				Clique c = C1.elementAt(b);
-				if (maxCliqueSize <= c.size())
-					maxCliqueSize = c.size();
+				cliquesVector[c.size()].add(c);
+				if (this.Max_Cliques_Size <= c.size())
+					this.Max_Cliques_Size = c.size();
 
 				if (c.size() >= min_size) {
 					os.println(count + ", " + i + "," + c.size() + ", "
@@ -329,8 +303,7 @@ class Graph {
 		} // for
 		System.out.println();
 
-		System.out.println("Max Clique size = " + maxCliqueSize);
-		this.Max_Cliques_Size = maxCliqueSize;
+		System.out.println("Max Clique size = " + this.Max_Cliques_Size);
 
 		os.close();
 		try {
@@ -339,7 +312,6 @@ class Graph {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -401,4 +373,21 @@ class Graph {
 			e.printStackTrace();
 		}
 	}
+	
+	public Vector<Clique> getCliquesBySize(int i){
+		Vector<Clique> cliques = new Vector<Clique>();
+		for (int j = 0; j < cliquesVector[i].size(); j++) {
+			cliques.add(cliquesVector[i].get(j));
+		}
+		return cliques;
+	}
+
+	public Vector<Clique>[] getCliquesVector() {
+		return cliquesVector;
+	}
+
+	public void setCliquesVector(Vector<Clique>[] cliquesVector) {
+		this.cliquesVector = cliquesVector;
+	}
+	
 }

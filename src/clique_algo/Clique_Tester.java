@@ -41,6 +41,9 @@ public class Clique_Tester {
 		// printAll(c2);
 		// write2file(c2);
 
+		if (!G.getCliquesVector()[4].isEmpty())
+			System.out.println(G.getCliquesBySize(6));
+
 		// }
 	}
 
